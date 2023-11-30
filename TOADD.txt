@@ -1,0 +1,8 @@
+- KVM - QEMU tools and setup (virt-install, virsh, qemu, libvirtd...)
+- IPTABLES
+- OPENSSL
+- SYNCOID
+- NMCLI
+- Windows paths + registries
+- ZFS
+- openvpn
