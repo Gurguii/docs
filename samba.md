@@ -1,17 +1,21 @@
 ## [Arch Linux]
 
 ### Install samba
+
 ```bash
  sudo pacman -S --noconfirm samba
 ```
 
 ### Configuration file
+
 #### Location
+
 ```bash
 /etc/samba/smb.conf
 ```
 
 #### Example
+
 ```bash
 [global]
 
@@ -37,17 +41,25 @@ valid users = gurgui
 ```
 
 ### Tools
-#### smbpasswd 
+
+#### smbpasswd
+
 Used to manage users, e.g:
+
 ```bash
 smbpasswd -a <user>
 ```
+
 This would prompt for a password, if both match, the user will be added
 
 ***Note: <user> must exist locally***
+
 #### pdbedit
+
 Access samba database, e.g:
+
 ```bash
 pdbedit -L
 ```
+
 This would output a list of samba users
