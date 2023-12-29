@@ -10,11 +10,66 @@ sudo virt-install --vcpu 2 \
 --cdrom ~/.vms/ISOS/archlinux-2023.03.01-x86_64.iso \
 --network bridge=vbr0 \
 --noautoconsole \
---disk /home/gurgui/.vms/arch/arch.qcow2,bus=virtio,device=disk \
+--disk /home/gurgui/.vms/arch/arch.qcow2,bus=virtio,device=disk,size=100G,format=qcow2 \
 --os-variant archlinux \ 
 --name arch \
 --boot hd,cdrom,network,menu=on \ 
 --graphics vnc,port=5901 \
---boot uefi
+--boot uefi\
+--autostart \
 ```
+notes:  
+- memory unit is Megabytes  
+- cdrom will only be used as the first bootable option the first time we run the virt-install command  
+- noautoconsole avoids attaching to the machine console upon boot  
+- the disk size and format can properties can be omitted if the disk has already been created (qemu-img create -f qcow2|raw <diskname> 100G)  
+- if the --autostart flag is used, make sure you've enabled the libvirtd service, else the machine won't get started upon boot (systemctl enable libvirtd)  
 
+### Manage machines
+#### Graphical interface 
+```bash
+sudo pacman -S virt-manager
+```
+#### Command line  
+*Manually edit machine definition - xml file*
+```bash
+virsh edit <machine_name>
+```  
+*List running machines*
+```bash
+virsh list
+``` 
+*List all machines*
+```bash
+virsh list --all
+```  
+*Reset/reboot a machine*
+```bash
+virsh reset|reboot <machine_name>
+```  
+*Pause a machine*  
+```bash
+virsh pause <machine_name>
+```  
+*Forcefully stop a machine* 
+```bash
+virsh destroy <machine_name>
+```  
+*Change RAM*
+```bash
+virsh setmem <machine_name> --size <memory_size_MB>
+```  
+*Change cpu count*
+```bash
+virsh setvcpus <machine_name> --count <ncpus>
+```  
+**There are many many many more options, just run 'virsh help' and read, it's pretty intuitive**  
+### Graphical access to machines
+*Remmina*
+```bash
+sudo pacman -S remmina; remmina -c spice|vnc://<ip>:<port>
+```  
+*Virt viewer*
+```
+sudo pacman -S virt-viewer; virt-viewer
+```
