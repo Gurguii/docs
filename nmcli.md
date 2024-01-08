@@ -1,5 +1,33 @@
 ## Profie examples as reference  
 
+*bridge interface*
+**I personally use this to make my vms be in my lan**  
+
+#### Create the bridge profile
+
+```bash
+nmcli conn add con-name bridge \
+ifname vbr0 \
+type bridge \
+stp no \
+ipv4.addresses 192.168.1.1/24 \
+ipv4.dns 8.8.8.8,8.8.4.4 \
+ipv4.method manual \
+ipv4.connection.autostart 1
+```  
+
+#### Create the slave profile
+
+```bash
+nmcli conn add con-name slave-host \
+ifname eth0 \
+type bridge-slave \
+master bridge
+```  
+
+After adding these 2 profiles, just bring them up with 'nmcli conn up <connection_name>', it will make the physical network iface (eth0)  
+a slave of the virtual (vbr0), this way we can just add vms to the bridge and they will have lan/internet access  
+
 *wired connection - static ip*
 
 ```bash
@@ -62,17 +90,15 @@ nmcli dev wifi connect <SSID> password <password> ifname <interface> name <conne
 
 *Add a wifi connection profile*  
 
-```
+```bash
 nmcli conn add con-name test type wifi ssid MI_WIFI ipv4.addresses 192.168.1.5/24 ipv4.gateway 192.168.1.1 ipv4.dns 8.8.8.8,8.8.4.4 ipv4.method manual wifi-sec.key-mgmt wpa-psk wifi-sec.psk <password>
 ```  
 
-**note: if the command returns smth like '802-11-wireless-security.psk: property is invalid' it means that password is incorrect**
+**note: if the command returns smth like '802-11-wireless-security.psk: property is invalid' it means that password is incorrect**  
 **note2: if you want dhcp, avoid the ipv4.* options in the command and simply add ipv4.method auto**  
 
-## Bridge interface for virtual machines  
-
-*Create a bridge connection profile which creates our virtual interface (e.g vms0)*
+### Create hotspot  
 
 ```bash
-nmcli conn add  
+nmcli dev wifi hotspot ssid MY_WIFI password superpass123! ifname wlan0
 ```
