@@ -14,18 +14,16 @@ sudo virt-install --vcpu 2 \
 --cdrom ~/.vms/ISOS/archlinux-2023.03.01-x86_64.iso \
 --network bridge=vbr0 \
 --noautoconsole \
---disk /home/gurgui/.vms/arch/arch.qcow2,bus=virtio,device=disk,size=100G,format=qcow2 \
+--disk /home/gurgui/.vms/arch/arch.qcow2,type=<file|raw>,bus=<sata|virtio>,device=<disk|cdrom>,size=100G,format=qcow2 \
 --os-variant archlinux \ 
 --name arch \
---boot hd,cdrom,network,menu=on \ 
---graphics vnc,port=5901 \
---boot uefi\
+--boot hd,cdrom,network,menu=on,uefi \ 
+--graphics vnc,port=5901,passwd='superpassword123!' \
 --autostart \
 ```
 
 notes:  
-
-- memory unit is Megabytes  
+- memory unit is Megabytes so in the example above 2 gigabytes are given to the VM 
 - cdrom will only be used as the first bootable option the first time we run the virt-install command  
 - the disk size and format can properties can be omitted if the disk has already been created (qemu-img create -f qcow2|raw <diskname> 100G)  
 - if the --autostart flag is used, make sure you've enabled the libvirtd service, else the machine won't get started upon boot (systemctl enable libvirtd)  
