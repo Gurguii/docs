@@ -99,6 +99,24 @@ nmcli conn add con-name test type wifi ssid MI_WIFI ipv4.addresses 192.168.1.5/2
 
 ### Create hotspot  
 
+#### Using 'device' subcommand
+
 ```bash
-nmcli dev wifi hotspot ssid MY_WIFI password superpass123! ifname wlan0
+nmcli device wifi hotspot ssid MY_WIFI password superpass123! ifname wlan0
+```  
+
+*this way nmcli will add the connection profile for you with the SSID name*  
+
+#### Using 'connection' subcommand
+
+PSK(pre shared key) protocol  
+
+```bash
+nmcli connection add con-name "ap-profile" ifname <wifi-iface> ssid <ssid> type wifi wifi.mode ap wifi-sec.key-mgmt wpa-psk wifi-sec.psk <password> 
+```
+
+EAP(enterprise access protocol)
+
+```bash
+nmcli connection add con-name "enterprise-ap-profile" ifname <wifi-ifae> ssid <ssid> type wifi wifi.mode ap wifi-sec.key-mgmt wpa-eap 802-1x.eap <tls|ttls...> 802-1x.identity <username> 802-1x.phase2-auth mschapv2
 ```
