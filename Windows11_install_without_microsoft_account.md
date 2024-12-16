@@ -1,5 +1,5 @@
 
-# Install Windows without Microsoft Account 
+# Install Windows 11 without Microsoft Account 
 Start installing Windows with the ISO normally, once the system reaches the **"Choose a country or region"** part, press **shift+f10** to open a cmd prompt, type:
 ```bash
 oobe\BypassNRO.cmd
