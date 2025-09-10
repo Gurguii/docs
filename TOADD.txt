@@ -1,6 +1,0 @@
-- IPTABLES
-- OPENSSL
-- SYNCOID
-- Windows paths + registries
-- ZFS
-- openvpn
